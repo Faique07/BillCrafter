@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@clerk/express": "^2.1.7",
+    "@google/genai": "^1.50.1",
     "bcrypt": "^6.0.0",
     "body-parser": "^2.2.2",
     "cors": "^2.8.6",

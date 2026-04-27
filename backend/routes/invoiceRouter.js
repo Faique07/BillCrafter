@@ -1,5 +1,5 @@
 import express from 'express'
-import { createInvoice, deleteInvoice, getInvoiceById, getInvoices, updateInvoice } from '../controllers/invoiceContoller';
+import { createInvoice, deleteInvoice, getInvoiceById, getInvoices, updateInvoice } from '../controllers/invoiceController.js';
 import { clerkMiddleware } from '@clerk/express'
 
 
