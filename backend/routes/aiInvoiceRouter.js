@@ -110,7 +110,7 @@ async function tryGenerateWithModel(modelName, prompt) {
   return { text: String(text).trim(), modelName };
 }
 
-aiInvoiceRouter.post("generate", async (req, res) => {
+aiInvoiceRouter.post("/generate", async (req, res) => {
   try {
     if (!API_KEY) {
       return res.status(500).json({
@@ -119,7 +119,7 @@ aiInvoiceRouter.post("generate", async (req, res) => {
       });
     }
 
-    const { prompt } = req.body;
+    const { prompt } = req.body || {};
     if (!prompt || !prompt.trim()) {
       return res.status(400).json({
         success: false,
@@ -127,7 +127,7 @@ aiInvoiceRouter.post("generate", async (req, res) => {
       });
     }
 
-    const fullPropmt = buildInvoicePrompt(prompt);
+    const fullPrompt = buildInvoicePrompt(prompt);
 
     let lastErr = null;
     let lastText = null;
@@ -182,7 +182,7 @@ aiInvoiceRouter.post("generate", async (req, res) => {
     } 
     
     catch (parseErr) {
-        console.error("Failed to parse the JSON from AI respinse: ", parseErr,{
+        console.error("Failed to parse the JSON from AI response: ", parseErr,{
             model: usedModel,
             jsonText
         }    
@@ -193,13 +193,12 @@ aiInvoiceRouter.post("generate", async (req, res) => {
             model: usedModel,
             raw: text
         });
-        return res.status(200).json({
+    }
+    return res.status(200).json({
             success: true,
             model: usedModel,
             data
-        }); 
-    }
-
+    });      
   } 
   
   catch (err) {

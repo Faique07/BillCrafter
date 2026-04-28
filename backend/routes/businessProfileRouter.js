@@ -48,6 +48,8 @@ businessProfileRouter.put(
     updateBusinessProfile
 )
 
+// to get business profile
+
 businessProfileRouter.get("/me", getMyBusinessProfile);
 
 export default businessProfileRouter;
