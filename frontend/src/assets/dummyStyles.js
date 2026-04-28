@@ -997,7 +997,7 @@ export const navbarStyles = {
   nav: "flex items-center justify-between h-16",
   
   // Logo Section
-  logoSection: "flex items-center gap-4",
+  logoSection: "flex items-center gap-4 p-4",
   logoLink: "inline-flex items-center",
   logoImage: "h-12 w-12 object-contain",
   logoText: "font-semibold text-lg tracking-tight",
