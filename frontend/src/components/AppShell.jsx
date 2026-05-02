@@ -1,10 +1,9 @@
 import React from "react";
 import { appShellStyles } from "../assets/dummyStyles";
 import logo from "../assets/invoice.png";
-import { useNavigate } from "react-router-dom";
 import { useClerk, useUser } from "@clerk/clerk-react";
 import { useState, useEffect } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate, Outlet} from "react-router-dom";
 
 const AppShell = () => {
   const navigate = useNavigate();
@@ -59,7 +58,7 @@ const AppShell = () => {
     try {
       await signOut();
     } catch (error) {
-      console.warn("Dignout error", error);
+      console.warn("Signout error", error);
     }
     navigate("/login");
   };
@@ -486,8 +485,27 @@ const AppShell = () => {
                   <span className="hidden xs:inline">Create Invoice</span>
                   <span className="xs:hidden">Create</span>
                 </button>
+                <div className={appShellStyles.userSectionDesktop}>
+                  <div className={appShellStyles.userInfo}>
+                    <div className={appShellStyles.userName}>{displayName}</div>
+                    <div className={appShellStyles.userEmail}>{user?.email}</div>
+                  </div>
+                  <div className={appShellStyles.userAvatarContainer}>
+                    <div className={appShellStyles.userAvatar}>
+                      {initials()}
+                      <div className={appShellStyles.userAvatarBorder}/>
+                    </div>
+                    <div className={appShellStyles.userStatus}></div>                    
+                  </div>
+                </div>
             </div>
           </header>
+
+          <main className={appShellStyles.main}>
+            <div className={appShellStyles.mainContainer}>
+              <Outlet/>
+            </div>
+          </main>
         </div>
       </div>
     </div>
