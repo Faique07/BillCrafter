@@ -1,19 +1,45 @@
-import React from 'react'
-import { featuresStyles } from '../assets/dummyStyles'
+import React from "react";
+import { featuresStyles } from "../assets/dummyStyles";
 
-const FeatureCard = ({title, desc, icon, delay = 0}) => (
-    <div className={featuresStyles.featureCard} style={{
-        transitionDelay: `${delay}ms`
-    }}>
-        <div className={featuresStyles.featureCardGradient}></div>
-        <div className={featuresStyles.featureCardBorder }></div>
-        <div className={featuresStyles.featureCardContent}></div>
-        <div className={featuresStyles.featureCardIconContainer}>{icon}</div>
+const FeatureCard = ({ title, desc, icon, delay = 0 }) => (
+  <div
+    className={featuresStyles.featureCard}
+    style={{
+      transitionDelay: `${delay}ms`,
+    }}
+  >
+    <div className={featuresStyles.featureCardGradient}></div>
+    <div className={featuresStyles.featureCardBorder}></div>
+    <div className={featuresStyles.featureCardContent}>
+      <div className={featuresStyles.featureCardIconContainer}>{icon}</div>
+      <div className={featuresStyles.featureCardTextContainer}>
+        <h4 className={featuresStyles.featureCardTitle}>{title}</h4>
+        <p className={featuresStyles.featureCardDescription}>{desc}</p>
+
+        {/*Subtitle CTA indicator */}
+        <div className={featuresStyles.featureCardCta}>
+          <span className={featuresStyles.featureCardCtaText}>Learn more</span>
+          <svg
+            className={featuresStyles.featureCardCtaIcon}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </div>
+      </div>
     </div>
-)
+  </div>
+);
 
 const Features = () => {
-    const features = [
+  const features = [
     {
       title: "AI Invoice Parsing",
       desc: "Paste freeform text and let our advanced AI extract client details, line items, and totals into a perfectly formatted draft invoice in seconds.",
@@ -80,33 +106,62 @@ const Features = () => {
   ];
 
   return (
-    <section id='features' className={featuresStyles.section}>
-        <div className={featuresStyles.backgroundBlob1}></div>
-        <div className={featuresStyles.backgroundBlob2}></div>
-        <div className={featuresStyles.backgroundBlob3}></div>
+    <section id="features" className={featuresStyles.section}>
+      <div className={featuresStyles.backgroundBlob1}></div>
+      <div className={featuresStyles.backgroundBlob2}></div>
+      <div className={featuresStyles.backgroundBlob3}></div>
 
-        <div className={featuresStyles.container}>
-            <div className={featuresStyles.headerContainer}>
-                <div className={featuresStyles.badge}>
-                    <span className={featuresStyles.badgeDot}></span>
-                    <span className={featuresStyles.badgeText}>Powerful Features</span>
-                </div>
-                <h2 className={featuresStyles.title}>
-                    Built for{" "}
-                    <span className={featuresStyles.titleGradient}>
-                        Speed & Clarity
-                    </span>
-                </h2>
-                <p className={featuresStyles.subtitle}>
-                    A minimal, intelligent interface designed to focus on what matters most—create, send, and track invoices effortlessly while maintaining a professional standard.
-                </p>
-            </div>
-            <div className={featuresStyles.featuresGrid}>
-                {features.map((feature, index) => {})}
-            </div>
+      <div className={featuresStyles.container}>
+        <div className={featuresStyles.headerContainer}>
+          <div className={featuresStyles.badge}>
+            <span className={featuresStyles.badgeDot}></span>
+            <span className={featuresStyles.badgeText}>Powerful Features</span>
+          </div>
+          <h2 className={featuresStyles.title}>
+            Built for{" "}
+            <span className={featuresStyles.titleGradient}>
+              Speed & Clarity
+            </span>
+          </h2>
+          <p className={featuresStyles.subtitle}>
+            A minimal, intelligent interface designed to focus on what matters
+            most—create, send, and track invoices effortlessly while maintaining
+            a professional standard.
+          </p>
         </div>
+        <div className={featuresStyles.featuresGrid}>
+          {features.map((feature, index) => (
+            <FeatureCard
+              key={feature.title}
+              title={feature.title}
+              desc={feature.desc}
+              icon={feature.icon}
+              delay={index * 100}
+            />
+          ))}
+        </div>
+        {/*bottom cta section */}
+        <div className={featuresStyles.bottomCtaContainer}>
+            <button className={featuresStyles.bottomCtaButton}>
+                <span>{featuresStyles.bottomCtaButtonText}</span>
+                 <svg
+              className={featuresStyles.bottomCtaButtonIcon}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+            </button>
+        </div>
+      </div>
     </section>
-  )
-}
+  );
+};
 
-export default Features
+export default Features;
