@@ -3,6 +3,7 @@ import { dashboardStyles } from "../assets/dummyStyles";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@clerk/clerk-react";
 import KpiCard from "../components/KpiCard";
+import StatusBadge from "../components/StatusBadge";
 
 const API_BASE = "http://localhost:4000";
 
@@ -135,22 +136,37 @@ function formatDate(dateInput) {
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { getToken, isSignedIn } = useAuth();
+  const { getToken, isSignedIn, isLoaded} = useAuth();
 
   //to obtain the token
 
+  // const obtainToken = useCallback(async () => {
+  //   if (typeof getToken !== "function") return null;
+  //   try {
+  //     let token = await getToken({ template: "default" }).catch(() => null);
+  //     if (!token) {
+  //       token = await getToken({ forceRefresh: true }).catch(() => null);
+  //     }
+  //     return token;
+  //   } catch (error) {
+  //     return null;
+  //   }
+  // }, [getToken]);
+
   const obtainToken = useCallback(async () => {
-    if (typeof getToken !== "function") return null;
-    try {
-      let token = await getToken({ template: "default" }).catch(() => null);
-      if (!token) {
-        token = await getToken({ forceRefresh: true }).catch(() => null);
-      }
-      return token;
-    } catch (error) {
-      return null;
+  if (!isLoaded) return null;           // ✅ Clerk not ready yet
+  if (!isSignedIn) return null;         // ✅ not logged in
+  if (typeof getToken !== "function") return null;
+  try {
+    let token = await getToken({ template: "default" }).catch(() => null);
+    if (!token) {
+      token = await getToken({ forceRefresh: true }).catch(() => null);
     }
-  }, [getToken]);
+    return token;
+  } catch (error) {
+    return null;
+  }
+}, [getToken, isLoaded, isSignedIn]); // ✅ add to deps
 
   const [storedInvoices, setStoredInvoices] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -243,16 +259,29 @@ const Dashboard = () => {
     }
   }, [obtainToken]);
 
-  useEffect(() => {
-    fetchInvoices();
-    fetchBusinessProfile();
+  // useEffect(() => {
+  //   fetchInvoices();
+  //   fetchBusinessProfile();
 
-    function onStorage(e) {
-      if (e.key === "invoice_v1") fetchInvoices();
-    }
-    window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
-  }, [fetchInvoices, fetchBusinessProfile, isSignedIn]);
+  //   function onStorage(e) {
+  //     if (e.key === "invoice_v1") fetchInvoices();
+  //   }
+  //   window.addEventListener("storage", onStorage);
+  //   return () => window.removeEventListener("storage", onStorage);
+  // }, [fetchInvoices, fetchBusinessProfile, isSignedIn]);
+
+  useEffect(() => {
+  if (!isLoaded) return; // ✅ wait for Clerk to initialize
+
+  fetchInvoices();
+  fetchBusinessProfile();
+
+  function onStorage(e) {
+    if (e.key === "invoice_v1") fetchInvoices();
+  }
+  window.addEventListener("storage", onStorage);
+  return () => window.removeEventListener("storage", onStorage);
+}, [fetchInvoices, fetchBusinessProfile, isSignedIn, isLoaded]); // ✅ add isLoaded
 
   // 1 us = inr
   const HARD_RATES = {
@@ -361,8 +390,8 @@ const Dashboard = () => {
         </p>
       </div>
 
-      {/* LOADING ERROR STATE */}
-      {/* {loading ? (
+      {/* LOADING ERROR STATE
+      {loading ? (
         <div className="p-6">Loading invoices...</div>
       ) : error ? (
         <div className="p-6">
@@ -573,7 +602,7 @@ const Dashboard = () => {
                         onClick={() => openInvoice(inv)}
                       >
                         <td className={dashboardStyles.tableCell}>
-                          <div className="flec item-center gap-3">
+                          <div className="flex items-center gap-3">
                             <div className={dashboardStyles.clientAvatar}>
                               {clientInitial}
                             </div>
@@ -593,11 +622,49 @@ const Dashboard = () => {
                           </div>
                         </td>
                         <td className={dashboardStyles.tableCell}>
-                          
+                          <StatusBadge
+                            status={inv.status}
+                            size="default"
+                            showIcon={true}
+                          />
+                        </td>
+                        <td className={dashboardStyles.tableCell}>
+                        <div className={dashboardStyles.dateCell}>
+                          {inv.dueDate ? formatDate(inv.dueDate) : "-"}
+                        </div>
+                        </td>
+                        <td className={dashboardStyles.tableCell}>
+                          <div className="text-right">
+                            <button onClick={(e) => {
+                              e.stopPropagation();
+                              openInvoice(inv);
+                            }} className={dashboardStyles.actionButton}>
+                              <EyeIcon className="w-4 h-4 group-hover/btn:scale-110 transition-transform"/>
+                              View
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     );
                   })}
+
+                  {/*if no invoices are present */}
+                  {recent.length === 0 && (
+                    <tr>
+                      <td colSpan={5} className={dashboardStyles.emptyState}>
+                        <div className={dashboardStyles.emptyStateText}>
+                          <FileTextIcon className={dashboardStyles.emptyStateIcon}/>
+                          <div className={dashboardStyles.emptyStateMessage}>
+                            No invoice yet
+                          </div>
+                          <button onClick={() => navigate("/app/create-invoice")}
+                          className={dashboardStyles.emptyStateAction}>
+                            Create Your First Invoice
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
