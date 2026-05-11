@@ -2,7 +2,7 @@ import express from "express";
 import { GoogleGenAI } from "@google/genai";
 
 import dotenv from "dotenv";
-import { model } from "mongoose";
+// import { model } from "mongoose";
 
 dotenv.config();
 
@@ -17,7 +17,7 @@ if (!API_KEY) {
 const ai = new GoogleGenAI({ apiKey: API_KEY });
 
 //models to try
-const MODEL_CANDIDATES = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-2.0"];
+const MODEL_CANDIDATES = ["gemini-2.5-flash", "gemini-2.0-flash"];
 
 // in the prompt, provide these details ans it will fill those automatically.
 function buildInvoicePrompt(promptText) {

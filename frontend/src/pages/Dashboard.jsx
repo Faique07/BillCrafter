@@ -390,7 +390,7 @@ const Dashboard = () => {
         </p>
       </div>
 
-      {/* LOADING ERROR STATE
+      {/* LOADING ERROR STATE */}
       {loading ? (
         <div className="p-6">Loading invoices...</div>
       ) : error ? (
@@ -413,7 +413,7 @@ const Dashboard = () => {
             )}
           </div>
         </div>
-      ) : null} */}
+      ) : null}
 
       <div className={dashboardStyles.kpiGrid}>
         <KpiCard
