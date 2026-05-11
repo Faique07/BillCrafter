@@ -48,7 +48,7 @@ const invoiceSchema = new mongoose.Schema({
     },
     // Business info
 
-    fromBussinessName: {type: String, default: ""},
+    fromBusinessName: {type: String, default: ""},
     fromEmail: {type: String, default: ""},
     fromAddress: {type: String, default: ""},
     fromPhone: {type: String, default: ""},
@@ -60,7 +60,7 @@ const invoiceSchema = new mongoose.Schema({
         name: {type: String, default: ""},
         email: {type: String, default: ""},
         address: {type: String, default: ""},
-        phone: {type: String, defaulr: ""}
+        phone: {type: String, default: ""}
     },
 
     items: {type: [ItemSchema], default: []},
@@ -72,14 +72,14 @@ const invoiceSchema = new mongoose.Schema({
 
     logoDataUrl : {type: String, default: null},
     stampDataUrl: {type: String, default: null},
-    signatueDataUrl: {type: String, default: null},
+    signatureDataUrl: {type: String, default: null},
 
     signatureName: {type: String, default: ""},
     signatureTitle: {type: String, default: ""},
 
     taxPercent: {type: Number, default: 18},
 
-    subTotal: {type: Number, default: 0},
+    subtotal: {type: Number, default: 0},
     tax: {type: Number, default: 0},
     total: {type: Number, default: 0},
 },{
