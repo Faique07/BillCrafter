@@ -7,6 +7,8 @@ const API_BASE = "http://localhost:4000";
 const PROFILE_ENDPOINT = `${API_BASE}/api/businessProfile/me`;
 const INVOICE_ENDPOINT = (id) => `${API_BASE}/api/invoice/${id}`;
 
+
+//it will give the image saved in uploads folder
 function resolveImageUrl(url) {
   if (!url) return null;
   const s = String(url).trim();
@@ -82,7 +84,8 @@ const defaultProfile = {
   signatureName: "",
   signatureTitle: "",
 };
-
+ 
+//it will show the cuurency for the invoice
 function currencyFmt(amount = 0, currency = "INR") {
   try {
     if (currency === "INR") {
@@ -104,6 +107,7 @@ function currencyFmt(amount = 0, currency = "INR") {
   }
 }
 
+//gice the date fro invoice in right format
 function formatDate(dateInput) {
   if (!dateInput) return "—";
   const d = dateInput instanceof Date ? dateInput : new Date(String(dateInput));
@@ -113,6 +117,7 @@ function formatDate(dateInput) {
   const yyyy = d.getFullYear();
   return `${dd}/${mm}/${yyyy}`;
 }
+
 
 function normalizeClient(raw) {
   if (!raw) return { name: "", email: "", address: "", phone: "" };
@@ -192,6 +197,7 @@ export default function InvoicePreview() {
 
   const prevTitleRef = useRef(document.title);
 
+  // we will obtain token from localstorage
   const obtainToken = useCallback(async () => {
     if (typeof getToken !== "function") return null;
     try {

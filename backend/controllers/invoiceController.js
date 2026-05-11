@@ -3,7 +3,7 @@ import Invoice from "../models/invoiceModel.js";
 import { getAuth } from "@clerk/express";
 import path from 'path'
 
-const API_BASE = "https://localhost:4000";
+const API_BASE = "http://localhost:4000";
 
 function computeTotals(items = [], taxPercent = 0) {
   const safe = Array.isArray(items) ? items.filter(Boolean) : [];
@@ -56,7 +56,7 @@ function uploadedFilesToUrls(req) {
     const arr = req.files[field];
     if (Array.isArray(arr) && arr[0]) {
       const fileName =
-        arr[0].fileName || (arr[0].path && path.basename(arr[0].path));
+        arr[0].filename || (arr[0].path && path.basename(arr[0].path));
       if (fileName) urls[mapping[field]] = `${API_BASE}/uploads/${fileName}`;
     }
   });
