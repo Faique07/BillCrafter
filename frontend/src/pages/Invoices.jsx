@@ -595,7 +595,7 @@ export default function InvoicesPage() {
         <div>
           <h1 className={invoicesStyles.headerTitle}>Invoice Management</h1>
           <p className={invoicesStyles.headerSubtitle}>
-            Search, filter, and manage your invoices with powerful AI tools
+            Manage your invoices with powerful AI tools
           </p>
         </div>
 
@@ -710,7 +710,7 @@ export default function InvoicesPage() {
         </div>
       </div>
 
-      {/* Filters */}
+      {/* Filters
       <div className={invoicesStyles.filtersCard}>
         <div className={invoicesStyles.filtersHeader}>
           <div className={invoicesStyles.filtersHeaderLeft}>
@@ -856,7 +856,7 @@ export default function InvoicesPage() {
             </button>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Table */}
       <div className={invoicesStyles.tableCard}>
