@@ -17,7 +17,7 @@ if (!API_KEY) {
 const ai = new GoogleGenAI({ apiKey: API_KEY });
 
 //models to try
-const MODEL_CANDIDATES = ["gemini-2.5-flash", "gemini-2.0-flash"];
+const MODEL_CANDIDATES = ["gemini-3.6-flash", "gemini-3.5-flash"];
 
 // in the prompt, provide these details ans it will fill those automatically.
 function buildInvoicePrompt(promptText) {
@@ -174,39 +174,39 @@ aiInvoiceRouter.post("/generate", async (req, res) => {
       });
     }
 
-    const jsonText = text.slice(firstBrace,lastBrace + 1);
+    const jsonText = text.slice(firstBrace, lastBrace + 1);
     let data;
 
     try {
-        data = JSON.parse(jsonText);
-    } 
-    
+      data = JSON.parse(jsonText);
+    }
+
     catch (parseErr) {
-        console.error("Failed to parse the JSON from AI response: ", parseErr,{
-            model: usedModel,
-            jsonText
-        }    
-        );
-        return res.status(502).json({
-            success: false,
-            message: "AI return invalid JSON",
-            model: usedModel,
-            raw: text
-        });
+      console.error("Failed to parse the JSON from AI response: ", parseErr, {
+        model: usedModel,
+        jsonText
+      }
+      );
+      return res.status(502).json({
+        success: false,
+        message: "AI return invalid JSON",
+        model: usedModel,
+        raw: text
+      });
     }
     return res.status(200).json({
-            success: true,
-            model: usedModel,
-            data
-    });      
-  } 
-  
+      success: true,
+      model: usedModel,
+      data
+    });
+  }
+
   catch (err) {
     console.error("AI invoice generation error: ", err);
     return res.status(500).json({
-        success: false,
-        message: "AI generation failed",
-        detail: err?.message || String(err)
+      success: false,
+      message: "AI generation failed",
+      detail: err?.message || String(err)
     })
   }
 });
